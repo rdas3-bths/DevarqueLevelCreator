@@ -21,8 +21,8 @@ def generate_world():
     return map
 
 
-def check_tile_clicked(position, world_map):
+def change_tile(position, world_map):
     for row in world_map:
         for tile in row:
             if tile.rect.collidepoint(position):
-                print(tile.row, tile.column)
+                tile.switch_tile()

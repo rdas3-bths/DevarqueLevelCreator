@@ -31,7 +31,7 @@ while run:
         if event.type == pygame.QUIT:  # If user clicked close
             run = False
         if event.type == pygame.MOUSEBUTTONUP:
-            check_tile_clicked(event.pos, world_grid)
+            change_tile(event.pos, world_grid)
     ##  ----- NO BLIT ZONE END  ----- ##
 
     ## FILL SCREEN, and BLIT here ##
