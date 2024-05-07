@@ -15,8 +15,12 @@ class Tile:
 
     def switch_tile(self):
         self.tile_type += 1
-        if self.tile_type == 2:
+        if self.tile_type >= 2:
             self.tile_type = 0
+        self.set_image()
+
+    def set_tile(self, tile_type):
+        self.tile_type = tile_type
         self.set_image()
 
     def set_image(self):
@@ -24,5 +28,7 @@ class Tile:
             self.image = pygame.image.load("images/floor.png")
         elif self.tile_type == 1:
             self.image = pygame.image.load("images/wall.png")
+        elif self.tile_type == 2:
+            self.image = pygame.image.load("images/start_floor.png")
 
 

@@ -21,7 +21,6 @@ b = 255
 run = True
 world_grid = generate_world()
 
-
 # -------- Main Program Loop -----------
 while run:
 
@@ -31,7 +30,14 @@ while run:
         if event.type == pygame.QUIT:  # If user clicked close
             run = False
         if event.type == pygame.MOUSEBUTTONUP:
-            change_tile(event.pos, world_grid)
+            row, column = get_clicked_tile(event.pos, world_grid)
+            if event.button == 1:
+                world_grid[row][column].switch_tile()
+            if event.button == 3:
+                world_grid[row][column].set_tile(2)
+
+        #if event.type == pygame.MOUSEBUTTONUP and event.button == 3:
+
     ##  ----- NO BLIT ZONE END  ----- ##
 
     ## FILL SCREEN, and BLIT here ##

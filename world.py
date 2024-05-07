@@ -4,25 +4,25 @@ import random
 
 def generate_world():
     map = []
-    column = 0
+    row = 0
     y = 10
     for i in range(30):
         tiles = []
-        row = 0
+        column = 0
         x = 10
-        for i in range(40):
+        for j in range(40):
             t = Tile(x, y, 1, row, column)
-            row += 1
+            column += 1
             x = x + 24
             tiles.append(t)
-        column += 1
+        row += 1
         y = y + 24
         map.append(tiles)
     return map
 
 
-def change_tile(position, world_map):
+def get_clicked_tile(position, world_map):
     for row in world_map:
         for tile in row:
             if tile.rect.collidepoint(position):
-                tile.switch_tile()
+                return tile.row, tile.column
