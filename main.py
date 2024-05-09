@@ -23,9 +23,13 @@ b = 255
 run = True
 world = World()
 save_button = Button("save", 1000, 110)
+
+# creating text box rectangle, color, and whether it's active or not
 text_box = pygame.Rect(1000, 50, 280, 40)
 text_box_color = (0, 0, 0)
 text_box_active = False
+
+# this is String that will go in the text box
 file_name = ""
 file_name_message = my_font.render(file_name, True, (0, 0, 0))
 
@@ -39,17 +43,21 @@ while run:
             run = False
 
         if event.type == pygame.KEYUP and text_box_active:
+            # if the user presses backspace, remove the last letter from the text
             if event.key == 8:
                 file_name = file_name[0:len(file_name)-1]
                 file_name_message = my_font.render(file_name, True, (0, 0, 0))
+            # otherwise, add the typed letter to the text field
             else:
                 file_name += event.unicode
                 file_name_message = my_font.render(file_name, True, (0, 0, 0))
 
         if event.type == pygame.MOUSEBUTTONUP:
+            # activate the text box
             if text_box.collidepoint(event.pos):
                 text_box_color = (0, 0, 255)
                 text_box_active = True
+            # de-activate the text box
             else:
                 text_box_color = (0, 0, 0)
                 text_box_active = False
