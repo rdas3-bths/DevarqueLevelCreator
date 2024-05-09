@@ -29,6 +29,7 @@ class World:
             for tile in row:
                 if tile.rect.collidepoint(position):
                     return tile.row, tile.column
+        return -1,-1
 
     def count_tile_type(self, tile_type):
         count = 0
