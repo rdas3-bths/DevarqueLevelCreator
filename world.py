@@ -38,3 +38,29 @@ class World:
                 if tile.tile_type == tile_type:
                     count += 1
         return count
+
+    def draw_world(self, screen):
+        for row in self.world_map:
+            for tile in row:
+                tile.draw_tile(screen)
+
+    def save_world(self, file_name):
+        if len(file_name) != 0:
+            f = open("worlds/" + file_name, "w")
+            start = False
+            for row in self.world_map:
+                row_data = ""
+                for tile in row:
+                    if tile.tile_type == 0:
+                        row_data += "."
+                    if tile.tile_type == 1:
+                        row_data += "#"
+                    if tile.tile_type == 2:
+                        if not start:
+                            row_data += "S"
+                            start = True
+                        else:
+                            row_data += "E"
+                f.write(row_data + "\n")
+
+            f.close()

@@ -31,4 +31,7 @@ class Tile:
         elif self.tile_type == 2:
             self.image = pygame.image.load("images/start_floor.png")
 
+    def draw_tile(self, screen):
+        screen.blit(self.image, self.rect)
+
 

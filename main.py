@@ -61,6 +61,10 @@ while run:
             else:
                 text_box_color = (0, 0, 0)
                 text_box_active = False
+
+            if save_button.rect.collidepoint(event.pos):
+                world.save_world(file_name)
+
             row, column = world.get_clicked_tile(event.pos)
             if event.button == 1:
                 world.world_map[row][column].switch_tile()
@@ -74,9 +78,7 @@ while run:
     ## FILL SCREEN, and BLIT here ##
     screen.fill((r, g, b))
 
-    for row in world.world_map:
-        for tile in row:
-            screen.blit(tile.image, tile.rect)
+    world.draw_world(screen)
     screen.blit(save_button.image, save_button.rect)
     screen.blit(save_file_message, (1000, 30))
     pygame.draw.rect(screen, text_box_color, text_box, 3)
