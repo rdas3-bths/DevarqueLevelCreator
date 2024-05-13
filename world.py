@@ -64,3 +64,21 @@ class World:
                 f.write(row_data + "\n")
 
             f.close()
+
+    def load_world(self, file_name):
+        map = []
+        world_file = open("worlds/"+file_name, "r")
+        for row in world_file:
+            map_row = []
+            for tile in row:
+                if tile == ".":
+                    map_row.append(0)
+                if tile == "#":
+                    map_row.append(1)
+                if tile == "S" or tile == "E":
+                    map_row.append(2)
+            map.append(map_row)
+
+        for i in range(30):
+            for j in range(40):
+                self.world_map[i][j].set_tile(map[i][j])

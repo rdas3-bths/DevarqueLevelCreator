@@ -8,6 +8,8 @@ class Button:
         self.y = y
         if button_type == "save":
             self.image = pygame.image.load("images/save_button.png")
+        if button_type == "load":
+            self.image = pygame.image.load("images/load_button.png")
         self.image_size = self.image.get_size()
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
 

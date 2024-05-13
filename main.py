@@ -23,6 +23,7 @@ b = 255
 run = True
 world = World()
 save_button = Button("save", 1000, 110)
+load_button = Button("load", 1150, 110)
 
 # creating text box rectangle, color, and whether it's active or not
 text_box = pygame.Rect(1000, 50, 280, 40)
@@ -65,6 +66,9 @@ while run:
             if save_button.rect.collidepoint(event.pos):
                 world.save_world(file_name)
 
+            if load_button.rect.collidepoint(event.pos):
+                world.load_world(file_name)
+
             row, column = world.get_clicked_tile(event.pos)
             if event.button == 1:
                 world.world_map[row][column].switch_tile()
@@ -80,6 +84,7 @@ while run:
 
     world.draw_world(screen)
     screen.blit(save_button.image, save_button.rect)
+    screen.blit(load_button.image, load_button.rect)
     screen.blit(save_file_message, (1000, 30))
     pygame.draw.rect(screen, text_box_color, text_box, 3)
     screen.blit(file_name_message, (1008, 65))
