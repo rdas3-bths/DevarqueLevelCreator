@@ -2,6 +2,16 @@ import pygame
 from world import *
 from button import Button
 
+def get_list_of_coordinates(up, down):
+    # first determine if it's a horizontal line or vertical
+    x_diff = abs(up[0] - down[0])
+    y_diff = abs(up[1] - down[1])
+    if x_diff > y_diff:
+        print("Horizontal")
+    else:
+        print("Vertical")
+
+
 # set up pygame modules
 pygame.init()
 pygame.font.init()
@@ -33,6 +43,8 @@ text_box_active = False
 # this is String that will go in the text box
 file_name = ""
 file_name_message = my_font.render(file_name, True, (0, 0, 0))
+clicked_down_coordinate = (0, 0)
+clicked_up_coordinate = (0, 0)
 
 # -------- Main Program Loop -----------
 while run:
@@ -53,7 +65,14 @@ while run:
                 file_name += event.unicode
                 file_name_message = my_font.render(file_name, True, (0, 0, 0))
 
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            clicked_down_coordinate = event.pos
+
         if event.type == pygame.MOUSEBUTTONUP:
+            clicked_up_coordinate = event.pos
+
+            if clicked_up_coordinate != clicked_down_coordinate:
+                get_list_of_coordinates(clicked_up_coordinate, clicked_down_coordinate)
             # activate the text box
             if text_box.collidepoint(event.pos):
                 text_box_color = (0, 0, 255)
