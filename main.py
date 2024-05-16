@@ -3,13 +3,30 @@ from world import *
 from button import Button
 
 def get_list_of_coordinates(up, down):
+    all_points = []
     # first determine if it's a horizontal line or vertical
     x_diff = abs(up[0] - down[0])
     y_diff = abs(up[1] - down[1])
     if x_diff > y_diff:
-        print("Horizontal")
+        x_change = up[0] - down[0]
+        if x_change > 0:
+            for i in range(down[0], up[0]+1):
+                all_points.append((i, up[1]))
+        else:
+            for i in range(up[0], down[0]+1):
+                all_points.append((i, up[1]))
     else:
         print("Vertical")
+        y_change = up[1] - down[1]
+        if y_change > 0:
+            for i in range(down[1], up[1]+1):
+                all_points.append((up[0], i))
+        else:
+            print("Up", up[1], down[1])
+            for i in range(up[1], down[1]+1):
+                all_points.append((up[0], i))
+
+    return all_points
 
 
 # set up pygame modules
@@ -72,7 +89,18 @@ while run:
             clicked_up_coordinate = event.pos
 
             if clicked_up_coordinate != clicked_down_coordinate:
-                get_list_of_coordinates(clicked_up_coordinate, clicked_down_coordinate)
+                all_points = get_list_of_coordinates(clicked_up_coordinate, clicked_down_coordinate)
+                changed_tiles = []
+                for point in all_points:
+                    row, column = world.get_clicked_tile(point)
+                    if not (row, column) in changed_tiles:
+                        changed_tiles.append((row, column))
+
+                for i in range(len(changed_tiles)):
+                    changed_row = changed_tiles[i][0]
+                    changed_col = changed_tiles[i][1]
+                    world.world_map[changed_row][changed_col].switch_tile()
+
             # activate the text box
             if text_box.collidepoint(event.pos):
                 text_box_color = (0, 0, 255)
@@ -89,7 +117,7 @@ while run:
                 world.load_world(file_name)
 
             row, column = world.get_clicked_tile(event.pos)
-            if event.button == 1:
+            if event.button == 1 and clicked_up_coordinate == clicked_down_coordinate:
                 world.world_map[row][column].switch_tile()
             if event.button == 3:
                 count_tiles = world.count_tile_type(2)
