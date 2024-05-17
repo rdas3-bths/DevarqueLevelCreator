@@ -1,6 +1,7 @@
 import pygame
 from world import *
 from button import Button
+from coin import Coin
 
 def get_list_of_coordinates(up, down):
     all_points = []
@@ -16,13 +17,11 @@ def get_list_of_coordinates(up, down):
             for i in range(up[0], down[0]+1):
                 all_points.append((i, up[1]))
     else:
-        print("Vertical")
         y_change = up[1] - down[1]
         if y_change > 0:
             for i in range(down[1], up[1]+1):
                 all_points.append((up[0], i))
         else:
-            print("Up", up[1], down[1])
             for i in range(up[1], down[1]+1):
                 all_points.append((up[0], i))
 
@@ -34,6 +33,7 @@ pygame.init()
 pygame.font.init()
 my_font = pygame.font.SysFont('Courier New', 14)
 save_file_message = my_font.render("Enter your world name:", True, (0, 0, 0))
+sprite_message = my_font.render("Select sprites to add:", True, (0, 0, 0))
 pygame.display.set_caption("Escape Devarque Level Creator")
 
 # set up variables for the display
@@ -51,6 +51,7 @@ run = True
 world = World()
 save_button = Button("save", 1000, 110)
 load_button = Button("load", 1150, 110)
+coin_button = Coin(1000, 250)
 
 # creating text box rectangle, color, and whether it's active or not
 text_box = pygame.Rect(1000, 50, 280, 40)
@@ -63,6 +64,8 @@ file_name_message = my_font.render(file_name, True, (0, 0, 0))
 clicked_down_coordinate = (0, 0)
 clicked_up_coordinate = (0, 0)
 
+coin_button_active = False
+
 # -------- Main Program Loop -----------
 while run:
 
@@ -71,6 +74,9 @@ while run:
     for event in pygame.event.get():  # User did something
         if event.type == pygame.QUIT:  # If user clicked close
             run = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN and coin_button.rect.collidepoint(event.pos):
+            coin_button_active = not coin_button_active
 
         if event.type == pygame.KEYUP and text_box_active:
             # if the user presses backspace, remove the last letter from the text
@@ -117,7 +123,7 @@ while run:
                 world.load_world(file_name)
 
             row, column = world.get_clicked_tile(event.pos)
-            if event.button == 1 and clicked_up_coordinate == clicked_down_coordinate:
+            if event.button == 1 and clicked_up_coordinate == clicked_down_coordinate and row != -1:
                 world.world_map[row][column].switch_tile()
             if event.button == 3:
                 count_tiles = world.count_tile_type(2)
@@ -135,7 +141,10 @@ while run:
     screen.blit(save_file_message, (1000, 30))
     pygame.draw.rect(screen, text_box_color, text_box, 3)
     screen.blit(file_name_message, (1008, 65))
-
+    screen.blit(sprite_message, (1000, 200))
+    screen.blit(coin_button.image, coin_button.rect)
+    if coin_button_active:
+        pygame.draw.rect(screen, (0, 0, 255), coin_button.rect, 3)
     pygame.display.update()
     ## END OF WHILE LOOP
 

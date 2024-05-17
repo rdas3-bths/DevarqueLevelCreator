@@ -1,6 +1,5 @@
 import pygame
 
-
 class Tile:
 
     def __init__(self, x, y, tile_type, grid_row, grid_column):
