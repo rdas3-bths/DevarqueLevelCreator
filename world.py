@@ -51,11 +51,13 @@ class World:
             for row in self.world_map:
                 row_data = ""
                 for tile in row:
-                    if tile.tile_type == 0:
+                    if tile.has_coin:
+                        row_data += "C"
+                    elif tile.tile_type == 0:
                         row_data += "."
-                    if tile.tile_type == 1:
+                    elif tile.tile_type == 1:
                         row_data += "#"
-                    if tile.tile_type == 2:
+                    elif tile.tile_type == 2:
                         if not start:
                             row_data += "S"
                             start = True
@@ -72,13 +74,17 @@ class World:
             map_row = []
             for tile in row:
                 if tile == ".":
-                    map_row.append(0)
+                    map_row.append((0, "."))
                 if tile == "#":
-                    map_row.append(1)
+                    map_row.append((1, "#"))
                 if tile == "S" or tile == "E":
-                    map_row.append(2)
+                    map_row.append((2, "S"))
+                if tile == "C":
+                    map_row.append((1, "C"))
             map.append(map_row)
 
         for i in range(30):
             for j in range(40):
-                self.world_map[i][j].set_tile(map[i][j])
+                self.world_map[i][j].set_tile(map[i][j][0])
+                if map[i][j][1] == "C":
+                    self.world_map[i][j].has_coin = True

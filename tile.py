@@ -9,8 +9,12 @@ class Tile:
         self.row = grid_row
         self.column = grid_column
         self.set_image()
+        self.coin_image = pygame.image.load("images/coin.png")
+        self.coin_image_size = self.coin_image.get_size()
+        self.coin_rect = pygame.Rect(self.x+3, self.y+.5, self.coin_image_size[0], self.coin_image_size[1])
         self.image_size = self.image.get_size()
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
+        self.has_coin = False
 
     def switch_tile(self):
         self.tile_type += 1
@@ -32,5 +36,7 @@ class Tile:
 
     def draw_tile(self, screen):
         screen.blit(self.image, self.rect)
+        if self.has_coin:
+            screen.blit(self.coin_image, self.coin_rect)
 
 

@@ -125,6 +125,9 @@ while run:
             row, column = world.get_clicked_tile(event.pos)
             if event.button == 1 and clicked_up_coordinate == clicked_down_coordinate and row != -1:
                 world.world_map[row][column].switch_tile()
+                if coin_button_active:
+                    world.world_map[row][column].set_tile(0)
+                    world.world_map[row][column].has_coin = not world.world_map[row][column].has_coin
             if event.button == 3:
                 count_tiles = world.count_tile_type(2)
                 if count_tiles < 2:
