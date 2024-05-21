@@ -86,5 +86,6 @@ class World:
         for i in range(30):
             for j in range(40):
                 self.world_map[i][j].set_tile(map[i][j][0])
+                self.world_map[i][j].has_coin = False
                 if map[i][j][1] == "C":
                     self.world_map[i][j].has_coin = True
