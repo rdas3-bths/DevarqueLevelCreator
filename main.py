@@ -1,7 +1,7 @@
 import pygame
 from world import *
 from button import Button
-from coin import Coin
+from tile_item import TileItem
 
 def get_list_of_coordinates(up, down):
     all_points = []
@@ -51,7 +51,8 @@ run = True
 world = World()
 save_button = Button("save", 1000, 110)
 load_button = Button("load", 1150, 110)
-coin_button = Coin(1000, 250)
+coin_button = TileItem(1000, 250, "coin")
+enemy_button = TileItem(1050, 250, "enemy")
 
 # creating text box rectangle, color, and whether it's active or not
 text_box = pygame.Rect(1000, 50, 280, 40)
@@ -64,8 +65,6 @@ file_name_message = my_font.render(file_name, True, (0, 0, 0))
 clicked_down_coordinate = (0, 0)
 clicked_up_coordinate = (0, 0)
 
-coin_button_active = False
-
 # -------- Main Program Loop -----------
 while run:
 
@@ -76,7 +75,12 @@ while run:
             run = False
 
         if event.type == pygame.MOUSEBUTTONDOWN and coin_button.rect.collidepoint(event.pos):
-            coin_button_active = not coin_button_active
+            coin_button.is_active = not coin_button.is_active
+            enemy_button.is_active = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN and enemy_button.rect.collidepoint(event.pos):
+            enemy_button.is_active = not enemy_button.is_active
+            coin_button.is_active = False
 
         if event.type == pygame.KEYUP and text_box_active:
             # if the user presses backspace, remove the last letter from the text
@@ -125,7 +129,7 @@ while run:
             row, column = world.get_clicked_tile(event.pos)
             if event.button == 1 and clicked_up_coordinate == clicked_down_coordinate and row != -1:
                 world.world_map[row][column].switch_tile()
-                if coin_button_active:
+                if coin_button.is_active:
                     world.world_map[row][column].set_tile(0)
                     world.world_map[row][column].has_coin = not world.world_map[row][column].has_coin
             if event.button == 3:
@@ -146,8 +150,11 @@ while run:
     screen.blit(file_name_message, (1008, 65))
     screen.blit(sprite_message, (1000, 200))
     screen.blit(coin_button.image, coin_button.rect)
-    if coin_button_active:
+    screen.blit(enemy_button.image, enemy_button.rect)
+    if coin_button.is_active:
         pygame.draw.rect(screen, (0, 0, 255), coin_button.rect, 3)
+    if enemy_button.is_active:
+        pygame.draw.rect(screen, (0, 0, 255), enemy_button.rect, 3)
     pygame.display.update()
     ## END OF WHILE LOOP
 
