@@ -132,6 +132,11 @@ while run:
                 if coin_button.is_active:
                     world.world_map[row][column].set_tile(0)
                     world.world_map[row][column].has_coin = not world.world_map[row][column].has_coin
+                    world.world_map[row][column].has_enemy = False
+                elif enemy_button.is_active:
+                    world.world_map[row][column].set_tile(0)
+                    world.world_map[row][column].has_coin = False
+                    world.world_map[row][column].has_enemy = not world.world_map[row][column].has_enemy
             if event.button == 3:
                 count_tiles = world.count_tile_type(2)
                 if count_tiles < 2:

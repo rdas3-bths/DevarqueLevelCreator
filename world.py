@@ -53,6 +53,8 @@ class World:
                 for tile in row:
                     if tile.has_coin:
                         row_data += "C"
+                    elif tile.has_enemy:
+                        row_data += "W"
                     elif tile.tile_type == 0:
                         row_data += "."
                     elif tile.tile_type == 1:
@@ -81,6 +83,8 @@ class World:
                     map_row.append((2, "S"))
                 if tile == "C":
                     map_row.append((1, "C"))
+                if tile == "W":
+                    map_row.append((1, "W"))
             map.append(map_row)
 
         for i in range(30):
@@ -89,3 +93,5 @@ class World:
                 self.world_map[i][j].has_coin = False
                 if map[i][j][1] == "C":
                     self.world_map[i][j].has_coin = True
+                elif map[i][j][1] == "W":
+                    self.world_map[i][j].has_enemy = True
