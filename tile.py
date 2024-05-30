@@ -18,10 +18,16 @@ class Tile:
         self.enemy_image_size = self.enemy_image.get_size()
         self.enemy_rect = pygame.Rect(self.x + 3, self.y + .5, self.enemy_image_size[0], self.enemy_image_size[1])
 
+        self.key_image = pygame.image.load("images/key.png")
+        self.key_image_size = self.key_image.get_size()
+        self.key_rect = pygame.Rect(self.x + 3, self.y + .5, self.key_image_size[0], self.key_image_size[1])
+
         self.image_size = self.image.get_size()
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
         self.has_coin = False
         self.has_enemy = False
+        self.has_key = False
+        self.has_shop = False
 
     def switch_tile(self):
         self.tile_type += 1
@@ -47,5 +53,7 @@ class Tile:
             screen.blit(self.coin_image, self.coin_rect)
         elif self.has_enemy:
             screen.blit(self.enemy_image, self.enemy_rect)
+        elif self.has_key:
+            screen.blit(self.key_image, self.key_rect)
 
 

@@ -53,6 +53,8 @@ save_button = Button("save", 1000, 110)
 load_button = Button("load", 1150, 110)
 coin_button = TileItem(1000, 250, "coin")
 enemy_button = TileItem(1050, 250, "enemy")
+key_button = TileItem(1100, 250, "key")
+shop_button = TileItem(1150, 250, "shop")
 
 # creating text box rectangle, color, and whether it's active or not
 text_box = pygame.Rect(1000, 50, 280, 40)
@@ -77,10 +79,26 @@ while run:
         if event.type == pygame.MOUSEBUTTONDOWN and coin_button.rect.collidepoint(event.pos):
             coin_button.is_active = not coin_button.is_active
             enemy_button.is_active = False
+            shop_button.is_active = False
+            key_button.is_active = False
 
         if event.type == pygame.MOUSEBUTTONDOWN and enemy_button.rect.collidepoint(event.pos):
             enemy_button.is_active = not enemy_button.is_active
             coin_button.is_active = False
+            shop_button.is_active = False
+            key_button.is_active = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN and key_button.rect.collidepoint(event.pos):
+            key_button.is_active = not key_button.is_active
+            coin_button.is_active = False
+            enemy_button.is_active = False
+            shop_button.is_active = False
+
+        if event.type == pygame.MOUSEBUTTONDOWN and shop_button.rect.collidepoint(event.pos):
+            shop_button.is_active = not shop_button.is_active
+            coin_button.is_active = False
+            enemy_button.is_active = False
+            key_button.is_active = False
 
         if event.type == pygame.KEYUP and text_box_active:
             # if the user presses backspace, remove the last letter from the text
@@ -133,10 +151,19 @@ while run:
                     world.world_map[row][column].set_tile(0)
                     world.world_map[row][column].has_coin = not world.world_map[row][column].has_coin
                     world.world_map[row][column].has_enemy = False
+                    world.world_map[row][column].has_key = False
+                    world.world_map[row][column].has_shop = False
                 elif enemy_button.is_active:
                     world.world_map[row][column].set_tile(0)
                     world.world_map[row][column].has_coin = False
                     world.world_map[row][column].has_enemy = not world.world_map[row][column].has_enemy
+                    world.world_map[row][column].has_key = False
+                    world.world_map[row][column].has_shop = False
+                elif key_button.is_active:
+                    world.world_map[row][column].set_tile(0)
+                    world.world_map[row][column].has_coin = False
+                    world.world_map[row][column].has_enemy = False
+                    world.world_map[row][column].has_key = not world.world_map[row][column].has_key
             if event.button == 3:
                 count_tiles = world.count_tile_type(2)
                 if count_tiles < 2:
@@ -156,10 +183,16 @@ while run:
     screen.blit(sprite_message, (1000, 200))
     screen.blit(coin_button.image, coin_button.rect)
     screen.blit(enemy_button.image, enemy_button.rect)
+    screen.blit(key_button.image, key_button.rect)
+    screen.blit(shop_button.image, shop_button.rect)
     if coin_button.is_active:
         pygame.draw.rect(screen, (0, 0, 255), coin_button.rect, 3)
     if enemy_button.is_active:
         pygame.draw.rect(screen, (0, 0, 255), enemy_button.rect, 3)
+    if key_button.is_active:
+        pygame.draw.rect(screen, (0, 0, 255), key_button.rect, 3)
+    if shop_button.is_active:
+        pygame.draw.rect(screen, (0, 0, 255), shop_button.rect, 3)
     pygame.display.update()
     ## END OF WHILE LOOP
 

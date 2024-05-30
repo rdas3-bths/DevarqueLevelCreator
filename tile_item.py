@@ -9,6 +9,10 @@ class TileItem:
             self.image = pygame.image.load("images/coin.png")
         if type == "enemy":
             self.image = pygame.image.load("images/enemy.png")
+        if type == "shop":
+            self.image = pygame.image.load("images/shop.png")
+        if type == "key":
+            self.image = pygame.image.load("images/key.png")
         self.image_size = self.image.get_size()
         self.rect = pygame.Rect(self.x, self.y, self.image_size[0], self.image_size[1])
         self.is_active = False
