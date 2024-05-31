@@ -55,6 +55,10 @@ class World:
                         row_data += "C"
                     elif tile.has_enemy:
                         row_data += "W"
+                    elif tile.has_key:
+                        row_data += "K"
+                    elif tile.has_shop:
+                        row_data += "H"
                     elif tile.tile_type == 0:
                         row_data += "."
                     elif tile.tile_type == 1:
@@ -85,6 +89,10 @@ class World:
                     map_row.append((1, "C"))
                 if tile == "W":
                     map_row.append((1, "W"))
+                if tile == "K":
+                    map_row.append((1, "K"))
+                if tile == "H":
+                    map_row.append((1, "H"))
             map.append(map_row)
 
         for i in range(30):
@@ -95,3 +103,18 @@ class World:
                     self.world_map[i][j].has_coin = True
                 elif map[i][j][1] == "W":
                     self.world_map[i][j].has_enemy = True
+                elif map[i][j][1] == "K":
+                    self.world_map[i][j].has_key = True
+                elif map[i][j][1] == "H":
+                    self.world_map[i][j].has_shop = True
+
+    def reset_key(self):
+        for row in self.world_map:
+            for tile in row:
+                tile.has_key = False
+
+    def reset_shop(self):
+        for row in self.world_map:
+            for tile in row:
+                tile.has_shop = False
+

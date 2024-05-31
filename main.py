@@ -163,7 +163,17 @@ while run:
                     world.world_map[row][column].set_tile(0)
                     world.world_map[row][column].has_coin = False
                     world.world_map[row][column].has_enemy = False
+                    world.world_map[row][column].has_shop = False
+                    world.reset_key()
                     world.world_map[row][column].has_key = not world.world_map[row][column].has_key
+                elif shop_button.is_active:
+                    world.world_map[row][column].set_tile(0)
+                    world.world_map[row][column].has_coin = False
+                    world.world_map[row][column].has_enemy = False
+                    world.world_map[row][column].has_key = False
+                    world.reset_shop()
+                    world.world_map[row][column].has_shop = not world.world_map[row][column].has_shop
+
             if event.button == 3:
                 count_tiles = world.count_tile_type(2)
                 if count_tiles < 2:
